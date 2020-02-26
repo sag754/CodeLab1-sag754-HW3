@@ -8,6 +8,9 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     public Text infoText;
+    public Text infoTime;
+
+    private float timer = 0; //keep track of time
 
 
     private void Awake()
@@ -26,12 +29,13 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        infoText = GetComponentInChildren<Text>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        timer += Time.deltaTime;
         infoText.text = "Coins x " + PlayerController.instance.coins;
+        infoTime.text = "Time: " + (int)timer;
     }
 }
