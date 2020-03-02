@@ -55,6 +55,9 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        source.Play();
+        if (collision.gameObject.CompareTag("Coin"))
+        {
+            source.Play();
+        }
     }
 }

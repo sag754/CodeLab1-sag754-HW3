@@ -22,39 +22,39 @@ public class GameManager : MonoBehaviour
     private const string FILE_ALL_RECORDS = "/All_records.txt";
 
     //Property
-    public int Coins
+    public float Timer
     {
         get
         {
-            return coins;
+            return timer;
         }
         set
         {
-            coins = value;
-            if (coins > mostCoins)
+            timer = value;
+            if (timer < fastestTime)
             {
-                mostCoins = coins;
+                fastestTime = timer;
             }
         }
     }
 
-    private int mostCoins = 0;
+    private float fastestTime = 0;
 
-    private int MostCoins
+    private float FastestTime
     {
         get
         {
-            return mostCoins;
+            return fastestTime;
         }
         set
         {
-            mostCoins = value;
+            fastestTime = value;
             //Save it somewhere
             //PlayerPrefs.SetInt(PLAY_PREF_KEY_HS, highScore);
-            File.WriteAllText(Application.dataPath + FILE_CS, mostCoins + "");
+            File.WriteAllText(Application.dataPath + FILE_CS, fastestTime + "");
 
 
-            allRecords.Add(mostCoins);
+            allRecords.Add(fastestTime);
 
             string allRecordsString = "";
             for (int i = 0; i < allRecords.Count; i++)
@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private List<int> allRecords = new List<int>();
+    private List<float> allRecords = new List<float>();
 
     private void Awake()
     {
@@ -85,17 +85,13 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log(Application.dataPath);
 
-        infoText = GetComponentInChildren<Text>();
-        infoTime = GetComponentInChildren<Text>();
-        infoRecord = GetComponentInChildren<Text>();
-
         if (File.Exists(Application.dataPath + FILE_CS))
         {
             string csString = File.ReadAllText(Application.dataPath + FILE_CS);
 
             print(csString);
             string[] splitString = csString.Split(',');
-            mostCoins = int.Parse(splitString[0]);
+            fastestTime = int.Parse(splitString[0]);
 
             for (int i = 0; i < splitString.Length; i++)
             {
@@ -111,6 +107,6 @@ public class GameManager : MonoBehaviour
         timer += Time.deltaTime;
         infoText.text = "Coins x " + PlayerController.instance.coins;
         infoTime.text = "Time: " + (int)timer;
-        infoRecord.text = "Best Time: " + mostCoins;
+        infoRecord.text = "Best Time: " + fastestTime;
     }
 }
